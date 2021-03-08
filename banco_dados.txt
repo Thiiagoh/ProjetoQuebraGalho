@@ -1,0 +1,109 @@
+create database dadosfilmeseries;
+use dadosfilmeseries;
+
+CREATE TABLE IF NOT EXISTS `dadosfilmeseries`.`clientes` (
+  `email` VARCHAR(100) NOT NULL,
+  `senha` VARCHAR(100) NULL DEFAULT NULL,
+  PRIMARY KEY (`email`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `dadosfilmeseries`.`filmes_series` (
+  `id_filme_serie` INT(11) NOT NULL AUTO_INCREMENT,
+  `titulo` VARCHAR(45) NOT NULL,
+  `data` VARCHAR(45) NOT NULL,
+  `genero` VARCHAR(45) NOT NULL,
+  `tipo` VARCHAR(45) NOT NULL,
+  `imagem` VARCHAR(45) NOT NULL,
+  `descricao` VARCHAR(500) NOT NULL,
+  `videourl` VARCHAR(100) NOT NULL,
+  `envio_img` DATETIME NOT NULL,
+  PRIMARY KEY (`id_filme_serie`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `dadosfilmeseries`.`filmes_series_assistidos` (
+  `id_assistidos` INT(11) NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(100) NOT NULL,
+  `temp` INT(11) NULL DEFAULT NULL,
+  `ep` INT(11) NULL DEFAULT NULL,
+  `tipo` VARCHAR(100) NOT NULL,
+  `clientes_email` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id_assistidos`),
+  INDEX `fk_vistos_clientes1_idx` (`clientes_email` ASC),
+  CONSTRAINT `fk_vistos_clientes1`
+    FOREIGN KEY (`clientes_email`)
+    REFERENCES `dadosfilmeseries`.`clientes` (`email`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `dadosfilmeseries`.`filmes_series_assistir_mais_tarde` (
+  `id_favoritos` INT(11) NOT NULL AUTO_INCREMENT,
+  `clientes_email` VARCHAR(100) NOT NULL,
+  `id_filme_serie` INT(11) NOT NULL,
+  PRIMARY KEY (`id_favoritos`),
+  INDEX `fk_favoritos_clientes_idx` (`clientes_email` ASC),
+  INDEX `fk_filmes_series_assistir_mais_tarde_filmes_series1_idx` (`id_filme_serie` ASC),
+  UNIQUE INDEX `id_filme_serie_UNIQUE` (`id_filme_serie` ASC),
+  CONSTRAINT `fk_favoritos_clientes`
+    FOREIGN KEY (`clientes_email`)
+    REFERENCES `dadosfilmeseries`.`clientes` (`email`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_filmes_series_assistir_mais_tarde_filmes_series1`
+    FOREIGN KEY (`id_filme_serie`)
+    REFERENCES `dadosfilmeseries`.`filmes_series` (`id_filme_serie`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `dadosfilmeseries`.`filmes_series_avaliacao` (
+  `id_avaliacao` INT(11) NOT NULL AUTO_INCREMENT,
+  `nota` INT(11) NULL DEFAULT NULL,
+  `clientes_email` VARCHAR(100) NOT NULL,
+  `id_filme_serie` INT(11) NOT NULL,
+  PRIMARY KEY (`id_avaliacao`),
+  INDEX `fk_avaliacao_clientes1_idx` (`clientes_email` ASC),
+  INDEX `fk_filmes_series_avaliacao_filmes_series2_idx` (`id_filme_serie` ASC),
+  CONSTRAINT `fk_avaliacao_clientes1`
+    FOREIGN KEY (`clientes_email`)
+    REFERENCES `dadosfilmeseries`.`clientes` (`email`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_filmes_series_avaliacao_filmes_series2`
+    FOREIGN KEY (`id_filme_serie`)
+    REFERENCES `dadosfilmeseries`.`filmes_series` (`id_filme_serie`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Gente Grande', '2010', 'Comédia', 'filme', 'gente_grande', now(), 'Em 1978, cinco jovens de 12 anos ganhar um campeonato de basquete CYO. Trinta anos depois, eles se reúnem com suas famílias para o funeral do seu treinador e um fim de semana em uma casa em um lago onde costumavam festa. Até agora, cada um é um adulto com problemas e desafios', 'https://www.youtube.com/embed/5FiDt6tD7hw?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Ilha do Medo', '2010', 'Ação', 'filme', 'ilha', now(), 'Em 1954 Teddy Daniels (Leonardo DiCaprio) investiga o desaparecimento de um paciente no Shutter Island Ashecliffe Hospital, em Boston. No local, ele descobre que os médicos realizam experiências radicais com os pacientes, envolvendo métodos ilegais e anti-éticos.', 'https://www.youtube.com/embed/GT5fluzzupM?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Paixão Obsessiva', '2017', 'Ação', 'filme', 'paixao', now(), 'Tessa (Katherine Heigl) não se conforma com o fim de seu casamento, muito menos com o fato do ex-marido estar com outra mulher (Rosario Dawson). Ela passa a ficar obcecada em acabar com a tranquilidade dos dois, transformando suas vidas num inferno.', 'https://www.youtube.com/embed/iFXIBL617yc?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Milagre na Cela 7', '2019', 'Drama/Comédia', 'filme', 'milagre', now(), 'Separado de sua filha, um homem com deficiência intelectual precisa provar sua inocência ao ser preso pela morte da filha de um comandante.', 'https://www.youtube.com/embed/C8Tal1RHJcM?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Dois Irmãos Uma Jornada Fantástica', '2020', 'Animação', 'filme', 'dois', now(), 'Em um mundo transformado, no qual as criaturas não dependiam mais da magia para viver, dois irmãos elfos recebem um cajado de bruxo de seu falecido pai, capaz de trazê-lo de volta à vida.', 'https://www.youtube.com/embed/5FD1x-biuWQ?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Tenet', '2020', 'Ação/Ficção Científica', 'filme', 'tenet', now(), 'Armado com apenas uma palavra – Tenet – e lutando pela sobrevivência do mundo inteiro, o Protagonista viaja através de um mundo crepuscular de espionagem internacional em uma missão que irá desenrolar em algo para além do tempo real.', 'https://www.youtube.com/embed/3VmhednnuK0?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Ameaça Profunda', '2020', 'Terror/Ficção/Ação', 'filme', 'ameaca', now(), 'Um grupo de pesquisadores se encontra em um laboratório subaquático a 11 mil metros de profundidade, quando um terremoto causa a destruição do veículo e expõe a equipe ao risco de morte. Eles são obrigados a caminhar nas profundezas marítimas, com quantidade insuficiente de oxigênio, para tentarem sobreviver.', 'https://www.youtube.com/embed/KgvE1kGxXBQ?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Bill & Ted', '2020', 'Ficção Científica', 'filme', 'billeted', now(), 'As apostas estão mais altas que nunca para os dois amigos viajantes do tempo, agora já na meia-idade, em uma nova aventura buscando a canção que trará harmonia ao universo, ajudados por suas filhas, figuras históricas e lendas da música.', 'https://www.youtube.com/embed/0hAL7emClFM?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Rogue', '2020', 'Ação', 'filme', 'rogue', now(), 'Um esquadrão de soldados liderados por O’Hara estão sob a missão de resgatar a filha de um governador de seus captores em um lugar remoto da Africa. Mas quando as coisas dão errados, eles não tem que sobreviver não apenas ao encontro sangrento com uma gangue de rebeldes, mas também a uma horda de leões famintos.', 'https://www.youtube.com/embed/IpSK2CsKULg?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Homem Invisível', '2020', 'Suspense/Ficção/Terror', 'filme', 'homem', now(), 'Quando o ex abusivo de Cecilia tira a própria vida e deixa sua fortuna, ela suspeita que a morte dele tenha sido uma farsa. Como uma série de coincidências se torna letal, Cecilia trabalha para provar que está sendo caçada por alguém que ninguém pode ver.', 'https://www.youtube.com/embed/YJs96ZqAfv4?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Invasão Zumbi 2', '2020', 'Ação, Terror, Suspense', 'filme', 'invasao', now(), 'A península coreana ficou devastada após o surto de zumbis que atingiu os passageiros de um trem-bala com destino a Buscan há quatro anos. Com isso, um ex-soldado que conseguiu fugir do país, Jung-seok, tem a missão de retornar e acaba encontrando alguns sobreviventes.', 'https://www.youtube.com/embed/bYIJbkorpyQ?rel=0&amp;showinfo=0')
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Santana','2020','Ação','filme','santana', now(), 'Dois policiais, dois irmãos. Um quer justiça, o outro vingança. Eles podem se matar antes de capturar os bandidos.','https://www.youtube.com/embed/CdkxJ8BD0EI?rel=0&amp;showinfo=0');
+
+
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Vis a Vis', '2015', 'Drama', 'serie', 'vis', now(), 'A equipe liderada por Zulema e Maca recebem novas integrantes: Goya, Triana Azcoitia, La Flaca e Monica Ramala, enteada de um importante traficante mexicano que nunca entendeu os negócios da família. Agora, as seis vão enfrentar Ramala, que quer casar sua amada filha Kati e fazer do enteado Diego seu homem de confiança.', 'https://www.youtube.com/embed/pUX6MEf030w?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Anne with an E', '2017', 'Drama/Romance', 'serie', 'anne', now(), 'O mundo de Green Gables que Anne tanto adora se expande com novas pessoas e emocionantes histórias de amor, perdas e amadurecimento.', 'https://www.youtube.com/embed/q64ZLcezqxo?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Brooklyn Nine-Nine', '2019', 'Comédia', 'serie', 'brooklyn', now(), 'O brilhante e imaturo detetive Jake Peralta precisa aprender a seguir as regras e trabalhar em equipe quando um capitão exigente assume o comando de seu esquadrão.', 'https://www.youtube.com/embed/1GTVc1pLJKw?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('O Poço', '2019', 'Drama', 'serie', 'poco', now(), 'Em uma prisão onde os detentos nos andares de cima comem melhor do que os que estão abaixo, um homem decide fazer algo para mudar essa situação.', 'https://www.youtube.com/embed/UJZRumTCvjg?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Simpsons', '2019', 'Animação/Comédia', 'serie', 'sim', now(), 'A família Simpsons mora na cidade de Springfield, uma cidade americana como qualquer outra. Homer trabalha como inspetor de segurança numa usina de energia nuclear. Marge tenta manter a paz em sua família. Bart é um travesso garoto de 10 anos. Lisa, 8, é a inteligente da família, que adora tocar saxofone e é vegetariana. E a pequena Maggie conquista todos enquanto não larga sua chupeta. E a série tem um rico, e muitas vezes estranho, universo de personagens que também habitam Springfield.', 'https://www.youtube.com/embed/6A0qXmuIJ4k?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Supernatural', '2019', ' Drama, Suspense, Fantasia', 'serie', 'supernatural', now(), 'Os irmãos Dean e Sam vasculham o país em busca de atividades paranormais, brigando com demônios, fantasmas e monstros no caminho.', 'https://www.youtube.com/embed/wUXWbTjCtFI?rel=0&amp;showinfo=0')
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('O Bom Doutor', '2019', 'Drama', 'serie', 'gooddoctor', now(), 'Um jovem médico com autismo começa a trabalhar em um famoso hospital. Além dos desafios da profissão, ele terá também que provar sua capacidade a seus colegas e superiores.', 'https://www.youtube.com/embed/3om3dY_50nQ?rel=0&amp;showinfo=0')
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Dark', '2020', 'Fantasia/Ficção Científica', 'serie', 'dark', now(), 'Quatro famílias iniciam uma desesperada busca por respostas quando uma criança desaparece e um complexo mistério envolvendo três gerações começa a se revelar.', 'https://www.youtube.com/embed/N9PgvAGSgMY?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('The Umbrella Academy','2020','Ação, Aventura','serie','umbrella', now(), 'Com a morte do pai, irmãos com poderes extraordinários se reencontram e descobrem surpreendentes segredos de família – além de uma ameaça iminente à humanidade.', 'https://www.youtube.com/embed/Ogp2KZz6jIw?rel=0&amp;showinfo=0')
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('The Boys', '2020', 'Ação/Ficção Científica', 'serie', 'theboys', now(), 'Na trama, conhecemos um mundo em que super-heróis são as maiores celebridades do planeta, e rotineiramente abusam dos seus poderes ao invés de os usarem para o bem.', 'https://www.youtube.com/embed/QcpDanELl7A?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Lucifer', '2020', 'Fantasia/Ficção Científica', 'serie', 'lucifer', now(), 'Entediado com a vida nas trevas, o diabo se muda para Los Angeles, abre um piano-bar e empresta sua sabedoria a uma investigadora de assassinatos.', 'https://www.youtube.com/embed/5-nvzqnEtCw?rel=0&amp;showinfo=0');
+INSERT INTO `filmes_series`(`titulo`, `data`, `genero`, `tipo`, `imagem`, `envio_img`, `descricao`, `videourl`) VALUES ('Os 100', '2020', 'Ficção Científica, Ação', 'serie', 'oscem', now(), 'Quase 100 anos após um apocalipse nuclear devastar a Terra, 100 sobreviventes de uma estação espacial voltam para avaliar as condições do planeta.', 'https://www.youtube.com/embed/12eFPfB_MhE?rel=0&amp;showinfo=0')
