@@ -1,3 +1,39 @@
+@font-face {
+  font-family: Ubuntu-Regular;
+  src: url('../fonts/ubuntu/Ubuntu-Regular.ttf'); 
+}
+@font-face {
+  font-family: Ubuntu-Bold;
+  src: url('../fonts/ubuntu/Ubuntu-Bold.ttf'); 
+}
+
+body, html {
+    height: 100%;
+    font-family: Ubuntu-Regular, sans-serif;
+
+}
+
+a {
+    font-family: Ubuntu-Regular;
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(21,18,45,.59);;
+    margin: 0px;
+    transition: all 0.4s;
+    -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+}
+
+a:focus {
+    outline: none !important;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #fff;
+    opacity: .6
+}
 body{
     background: #32d2c3eb;
     background: -webkit-linear-gradient(-135deg, #32d2c3eb, #bbdefb);
@@ -104,6 +140,7 @@ button{
 }
 
 .top-bar{
+    background-color: rgba(62, 107, 122, .3);
     grid-area: main-view;
     height: 60px;
     z-index: 2;
@@ -508,3 +545,34 @@ a:hover > .imagem{
 .btnbtn:hover{
     opacity: .7;
 }
+
+.seilaaa{
+    display: flex;
+    justify-content: center;
+}
+
+.img-imgg{
+    background-color: #fff;
+    padding: 2px;
+    width: fit-content;
+    border-radius: 50%;
+}
+.img-imgg img{
+    background-color: #fff;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    transition: .8s ease-in;
+}
+
+.img-imgg:hover{
+    transform: scale(1.15);
+    cursor: pointer;
+}
+
+
+
+
+
+
+
